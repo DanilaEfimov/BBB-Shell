@@ -1,0 +1,15 @@
+QTextEdit {
+    background-color: rgba(40, 30, 70, 0.7);
+    color: #A9FCA0;
+    font-family: "Fira Code", "Courier New", monospace;
+    font-size: 14px;
+    border: 1px solid #2a2a2a;
+    padding: 10px;
+    selection-background-color: #264F78;
+    selection-color: white;
+    outline: none;
+}
+
+QMainWindow {
+    background-color: #1e1e1e;
+}
