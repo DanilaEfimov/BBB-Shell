@@ -32,5 +32,6 @@ signals:
 
 private slots:
     void handleError(const QString &message);
+    void terminate();
 };
 #endif // MAINWINDOW_H

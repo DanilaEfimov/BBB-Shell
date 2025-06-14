@@ -2,7 +2,6 @@
 #define CONSOLE_H
 
 #include "formatmanager.h"
-#include "internalcommand.h"
 #include "internalenvironment.h"
 #include "tokenizer.h"
 
@@ -11,7 +10,10 @@
 
 class Console : public QTextEdit
 {
-    friend InternalCommand;
+    Q_OBJECT
+
+    friend class InternalCommand;
+    friend class ExternalCommand; // for occuring errors, outputs...
 public:
     explicit Console(QWidget* parent = nullptr,
                     Tokenizer tokenizer = Tokenizer(),
@@ -28,14 +30,13 @@ private:
     QString currentInputLine() const;
     int promptPosition = 0;
 
-    QProcess* executor;
-
     InternalEnvironment env;
     Tokenizer tokenizer;
     FormatManager formatManager;
 
 signals:
     void commandEntered(const QString &command);
+    void exit();
 
 public slots:
     void errorOccured(const QString& message);

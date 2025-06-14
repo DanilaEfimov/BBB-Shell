@@ -64,6 +64,16 @@ public:
                                         + name.toStdString() + "]");
         }
     }
+
+    QString getUSERNAME() const
+    {
+        return this->username;
+    };
+
+    QString getPWD() const
+    {
+        return this->pwd;
+    };
 };
 
 #endif // INTERNALENVIRONMENT_H

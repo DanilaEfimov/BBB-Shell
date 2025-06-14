@@ -15,6 +15,7 @@
 #define PATTERN_OUT     ">" // all patterns have to be striped
 #define PATTERN_IN      "<"
 #define PATTERN_VAR     "$"
+#define PATTERN_FLAG    "-"
 
 // environment
 #define ENV_JSON        "./executor/data/env.json"  // cannot be relocated
@@ -62,10 +63,11 @@ namespace bbb {
 
     inline QString helloBBB()
     {
-        QString moment = "Session started at " + QDateTime::currentDateTime().toString() + "\n\n";
-        QString intro = "\nBBB-Shell DanilaEfimov (c). All rights reserved\n";
+        QString sep = "\n====================================================\n\n";
+        QString moment = "Session started at " + QDateTime::currentDateTime().toString() + "\n";
+        QString intro = "BBB-Shell DanilaEfimov (c). All rights reserved\n";
         QString welcome = "Welcome to custom terminal from SSAU.\n";
-        return intro + welcome + moment;
+        return sep + intro + welcome + moment + sep;
     }
 }
 

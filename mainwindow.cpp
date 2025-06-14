@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "common.h"
+#include "console.h"
 
 #include <QFile>
 
@@ -11,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     connect(this, &MainWindow::errorOccurred, this, &MainWindow::handleError);
+    connect(ui->console, &Console::exit, this, &MainWindow::terminate);
 
     this->setWindowTitle("BBB-Shell");
     this->setWindowIcon(QIcon(ICO_MAIN_PATH));
@@ -55,4 +57,10 @@ void MainWindow::setStyle()
 void MainWindow::handleError(const QString &message)
 {
     ui->console->errorOccured(message);
+}
+
+void MainWindow::terminate()
+{
+    qDebug() << "exiting...";
+    this->close();
 }

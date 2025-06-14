@@ -2,27 +2,33 @@
 #define INTERNALCOMMAND_H
 
 #include "icommandstrategy.h"
-
 #include <QMap>
 
 namespace bbb {
     enum InternalCommandsCodes {
-        clear,
+        exit, clear, help, pwd
     };
-}
+};
 
 class InternalCommand : public ICommandStrategy
 {
-    using KeyOp = std::pair<QString, int>;
 public:
-    InternalCommand() = delete;
-    virtual int execute(const QString& command, QTextEdit* console) const override;
+    using KeyOp = std::pair<QString, int>;
+
+    InternalCommand() = default;
+    virtual int execute(const QStringList& command, Console* console) const override;
+    virtual int type() const override;
+
+    static bool isDefinedCommand(const QString name);
+    static int getCode(const QString name);
 
 private:
-    bool isDefinedCommand(QString name) const;
-    const QMap<QString, int> InternalCommands{
-        KeyOp("clear", bbb::InternalCommandsCodes::clear),
-    };
+    const static QMap<QString, int> InternalCommands;
+
+    void clear(Console* console) const;
+    void help(Console* console) const;
+    void pwd(Console* console) const;
+    void exit(Console* console) const;
 };
 
 #endif // INTERNALCOMMAND_H

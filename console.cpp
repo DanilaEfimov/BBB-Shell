@@ -1,6 +1,8 @@
 #include "console.h"
 #include "common.h"
 #include "formatmanager.h"
+#include "externalcommand.h"
+#include "internalcommand.h"
 
 #include <QDir>
 #include <QKeyEvent>
@@ -25,7 +27,6 @@ Console::Console(QWidget* parent, Tokenizer tokenizer, FormatManager formatManag
     this->tokenizer = tokenizer;
     this->formatManager = formatManager;
 
-    this->executor = nullptr;
     this->setDefaultSize();
     this->append(bbb::helloBBB());
     printPrompt();
@@ -48,8 +49,8 @@ void Console::keyPressEvent(QKeyEvent *event)
         QTextEdit::keyPressEvent(event);
 
         QString input = this->currentInputLine();
-        if (this->executor && this->executor->state() == QProcess::Running) {
-            executor->write(input.toUtf8());
+        if (ExternalCommand::isRunnig()) {
+            ExternalCommand::write(input);
         }
         else{
             emit this->commandEntered(input);
@@ -79,7 +80,7 @@ void Console::printPrompt()
 
     cursor.setCharFormat(this->formatManager.promptFormat());
 
-    const QString prompt = env.username + ' ' + env.pwd + PATTERN_OUT + ' ';
+    const QString prompt = env.getPWD() + PATTERN_OUT + ' ';
     cursor.insertText(prompt);
 
     promptPosition = cursor.position();
@@ -107,7 +108,7 @@ void Console::setDefaultSize()
 
 void Console::commandEntered(const QString &command)
 {
-    QStringList argv = command.split(' ', Qt::SkipEmptyParts);
+    QStringList argv = this->tokenizer.getArgv(command);
 
     try{
         argv = this->tokenizer.replaceVars(command, &this->env);
@@ -121,38 +122,26 @@ void Console::commandEntered(const QString &command)
     if (argv.isEmpty())
         return;
 
-    argv.insert(0, "main.py");
-
-    this->executor = new QProcess(this);
-
-    connect(this->executor, &QProcess::readyReadStandardOutput, this, [this]() {
-        QString output = this->executor->readAllStandardOutput().trimmed();
-        if (!output.isEmpty()) {
-            this->outputOccured(output);
-        }
-    });
-
-    connect(this->executor, &QProcess::readyReadStandardError, this, [this]() {
-        QString msg = this->executor->readAllStandardError().trimmed();
-        if (!msg.isEmpty()) {
-            this->errorOccured(msg);
-        }
-    });
-
-    connect(this->executor, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-            this, [this](int exitCode, QProcess::ExitStatus status) {
-                Q_UNUSED(exitCode);
-                Q_UNUSED(status);
-
-                this->printPrompt();
-                this->setReadOnly(false);
-
-                this->executor->deleteLater();
-                this->executor = nullptr;
-            });
-
-    executor->start("python", argv);
+    // checking for a command strategy patterns
+    if(InternalCommand::isDefinedCommand(argv[0])){
+        InternalCommand cmd;
+        cmd.execute(argv, this);
+    }
+    else if(ExternalCommand::isDefinedCommand(argv[0])){
+        ExternalCommand cmd;
+        cmd.execute(argv, this);
+    }
+    else{
+        this->errorOccured("Undefined operation name [" + argv[0] + "], check all declared symbols");
+        this->printPrompt();
+    }
 }
+
+void Console::exit()
+{
+    this->outputOccured("logout...");
+    this->setReadOnly(true);
+};
 
 void Console::errorOccured(const QString &message)
 {
@@ -205,7 +194,7 @@ void Console::updateEnvironment()
     try{
         this->env.init(env);
     }
-    catch(std::logic_error e){
+    catch(std::logic_error& e){
         this->errorOccured(e.what());
     }
 }
