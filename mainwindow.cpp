@@ -12,7 +12,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     connect(this, &MainWindow::errorOccurred, this, &MainWindow::handleError);
-    connect(ui->console, &Console::exit, this, &MainWindow::terminate);
+
+    this->console = new Console(this);
+    this->setCentralWidget(console);
+    connect(this->console, &Console::exit, this, &MainWindow::terminate);
 
     this->setWindowTitle("BBB-Shell");
     this->setWindowIcon(QIcon(ICO_MAIN_PATH));
@@ -54,9 +57,14 @@ void MainWindow::setStyle()
     table.close();
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    QMainWindow::closeEvent(event);
+}
+
 void MainWindow::handleError(const QString &message)
 {
-    ui->console->errorOccured(message);
+    this->console->errorOccured(message);
 }
 
 void MainWindow::terminate()

@@ -1,3 +1,5 @@
+import re
 
-def get_tokens(command : str) -> list[str]:
-    pass
+def get_directories_from_path(path: str) -> list[str]:
+    directories = re.split(r'[/\\]+', path)
+    return directories

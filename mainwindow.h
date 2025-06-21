@@ -23,14 +23,19 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    Console *console = nullptr;
+
     QString errorString;
 
     void setStyle();
 
+protected:
+    void closeEvent(QCloseEvent* event) override;
+
 signals:
     void errorOccurred(const QString &message);
 
-private slots:
+public slots:
     void handleError(const QString &message);
     void terminate();
 };

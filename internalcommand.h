@@ -6,7 +6,7 @@
 
 namespace bbb {
     enum InternalCommandsCodes {
-        exit, clear, help, pwd
+        exit, clear, help, pwd, whoami
     };
 };
 
@@ -29,6 +29,7 @@ private:
     void help(Console* console) const;
     void pwd(Console* console) const;
     void exit(Console* console) const;
+    void whoami(Console* console) const;
 };
 
 #endif // INTERNALCOMMAND_H

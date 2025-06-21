@@ -4,6 +4,8 @@
 const QMap<QString, int> ExternalCommand::ExternalCommands{
     ExternalCommand::KeyOp("cd", bbb::ExternalCommandsCodes::cd),
     ExternalCommand::KeyOp("echo", bbb::ExternalCommandsCodes::echo),
+    ExternalCommand::KeyOp("ls", bbb::ExternalCommandsCodes::ls),
+    ExternalCommand::KeyOp("moduser", bbb::ExternalCommandsCodes::moduser),
 };
 QProcess* ExternalCommand::executor = nullptr;
 
@@ -79,6 +81,7 @@ void ExternalCommand::connectProcess(Console *console)
                 Q_UNUSED(exitCode);
                 Q_UNUSED(status);
 
+                console->updateEnvironment();
                 console->printPrompt();
                 console->setReadOnly(false);
 

@@ -9,7 +9,7 @@
 
 namespace bbb {
     enum ExternalCommandsCodes {
-        echo = 1, cd, ls,
+        echo = 1, cd, ls, moduser
     };
 }
 

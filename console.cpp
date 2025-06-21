@@ -48,9 +48,13 @@ void Console::keyPressEvent(QKeyEvent *event)
     if (key == Qt::Key_Return || key == Qt::Key_Enter) {
         QTextEdit::keyPressEvent(event);
 
+
         QString input = this->currentInputLine();
-        if (ExternalCommand::isRunnig()) {
-            ExternalCommand::write(input);
+        if(input.trimmed() == ""){
+            this->printPrompt();
+        }
+        else if (ExternalCommand::isRunnig()) {
+            ExternalCommand::write(input + "\n");
         }
         else{
             emit this->commandEntered(input);
@@ -92,7 +96,13 @@ void Console::printPrompt()
 QString Console::currentInputLine() const
 {
     QString text = this->toPlainText();
-    return text.mid(this->promptPosition);
+    text = text.mid(this->promptPosition);
+
+    QStringList lines = text.split('\n', Qt::SkipEmptyParts);
+    if(lines.empty())
+        return "";
+
+    return lines.last();
 }
 
 void Console::setDefaultSize()
@@ -195,6 +205,9 @@ void Console::updateEnvironment()
         this->env.init(env);
     }
     catch(std::logic_error& e){
+        this->errorOccured(e.what());
+    }
+    catch(std::exception& e){
         this->errorOccured(e.what());
     }
 }

@@ -28,6 +28,7 @@ protected:
 private:
     void printPrompt();
     QString currentInputLine() const;
+    QString standartInput() const;
     int promptPosition = 0;
 
     InternalEnvironment env;
