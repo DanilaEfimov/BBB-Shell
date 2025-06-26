@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>nano.qss</file>
+        <file>bbb.ico</file>
+    </qresource>
+</RCC>

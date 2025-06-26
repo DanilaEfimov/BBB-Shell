@@ -13,6 +13,7 @@ public:
     static QStringList replaceVars(const QString& line, Environment* env);
     static QStringList getFlags(const QString& command);
     static QStringList getArgv(const QString& command);
+
 private:
     static void trim(QStringList& words);
 };

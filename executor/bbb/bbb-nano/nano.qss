@@ -1,0 +1,38 @@
+QWidget {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    font-family: Consolas, monospace;
+    font-size: 14px;
+}
+
+QTextEdit {
+    background-color: #000000;
+    color: #00ff00;
+    border: 1px solid #555;
+    padding: 5px;
+    font-family: Consolas, monospace;
+    font-size: 14px;
+}
+
+QLabel {
+    color: #d4d4d4;
+    font-family: Consolas, monospace;
+    font-size: 14px;
+}
+
+QMenu {
+    background-color: #2d2d2d;
+    border: 1px solid #555;
+    padding: 2px;
+    font-family: Consolas, monospace;
+    font-size: 14px;
+    color: #d4d4d4;
+}
+
+QMenu::item {
+    padding: 5px 20px;
+}
+
+QMenu::item:selected {
+    background-color: #3d3d3d;
+}

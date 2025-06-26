@@ -10,6 +10,8 @@ def call(args: list[str]) -> None:
         entries = os.listdir(path)
         for entry in entries:
             print(entry)
+        if len(entries) == 0:
+            print("\tNOTHING ELSE")
         print("\n-------------------------------------\n")
     except FileNotFoundError:
         sys.stderr.write(f"Directory not found: {path}")

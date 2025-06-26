@@ -6,6 +6,7 @@ const QMap<QString, int> InternalCommand::InternalCommands = {
     InternalCommand::KeyOp("whoami", bbb::InternalCommandsCodes::whoami),
     InternalCommand::KeyOp("help", bbb::InternalCommandsCodes::help),
     InternalCommand::KeyOp("pwd", bbb::InternalCommandsCodes::pwd),
+    InternalCommand::KeyOp("nano", bbb::InternalCommandsCodes::nano),
     InternalCommand::KeyOp("exit", bbb::InternalCommandsCodes::exit),
 };
 
@@ -24,6 +25,7 @@ int InternalCommand::execute(const QStringList &command, Console *console) const
         case bbb::InternalCommandsCodes::pwd:   this->pwd(console);     break;
         case bbb::InternalCommandsCodes::exit:  this->exit(console);    break;
         case bbb::InternalCommandsCodes::whoami:this->whoami(console);  break;
+        case bbb::InternalCommandsCodes::nano:  this->nano(console, command); break;
         default:
             console->errorOccured("Undefined operation name[" + name + "], check all declared symbols");
             console->printPrompt();
@@ -84,4 +86,9 @@ void InternalCommand::whoami(Console *console) const
     QString user = console->env.getUSERNAME();
     console->outputOccured(user);
     console->printPrompt();
+}
+
+void InternalCommand::nano(Console *console, const QStringList &filename) const
+{
+
 }

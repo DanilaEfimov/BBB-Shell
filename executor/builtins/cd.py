@@ -20,8 +20,6 @@ def get_random_path(start_dir: str) -> str:
     for root, dirs, files in os.walk(start_dir):
         for d in dirs:
             paths.append(os.path.join(root, d))
-        for f in files:
-            paths.append(os.path.join(root, f))
 
     if not paths:
         return start_dir

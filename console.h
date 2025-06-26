@@ -35,6 +35,8 @@ private:
     Tokenizer tokenizer;
     FormatManager formatManager;
 
+    bool sessionRunning = true;
+
 signals:
     void commandEntered(const QString &command);
     void exit();

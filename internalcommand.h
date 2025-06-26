@@ -6,7 +6,7 @@
 
 namespace bbb {
     enum InternalCommandsCodes {
-        exit, clear, help, pwd, whoami
+        exit, clear, help, pwd, whoami, nano
     };
 };
 
@@ -30,6 +30,7 @@ private:
     void pwd(Console* console) const;
     void exit(Console* console) const;
     void whoami(Console* console) const;
+    void nano(Console* console, const QStringList& filename) const;
 };
 
 #endif // INTERNALCOMMAND_H

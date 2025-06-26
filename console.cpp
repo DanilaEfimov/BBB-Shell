@@ -34,6 +34,10 @@ Console::Console(QWidget* parent, Tokenizer tokenizer, FormatManager formatManag
 
 void Console::keyPressEvent(QKeyEvent *event)
 {
+    if(!this->sessionRunning){
+        return;
+    }
+
     int key = event->key();
 
     if (key == Qt::Key_Backspace || key == Qt::Key_Left || key == Qt::Key_Up) {
@@ -151,6 +155,7 @@ void Console::exit()
 {
     this->outputOccured("logout...");
     this->setReadOnly(true);
+    this->sessionRunning = false;
 };
 
 void Console::errorOccured(const QString &message)
