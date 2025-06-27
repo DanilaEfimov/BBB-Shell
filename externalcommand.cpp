@@ -8,6 +8,8 @@ const QMap<QString, int> ExternalCommand::ExternalCommands{
     ExternalCommand::KeyOp("moduser", bbb::ExternalCommandsCodes::moduser),
     ExternalCommand::KeyOp("mkdir", bbb::ExternalCommandsCodes::mkdir),
     ExternalCommand::KeyOp("cat", bbb::ExternalCommandsCodes::cat),
+    ExternalCommand::KeyOp("touch", bbb::ExternalCommandsCodes::touch),
+    ExternalCommand::KeyOp("rm", bbb::ExternalCommandsCodes::rm),
 };
 QProcess* ExternalCommand::executor = nullptr;
 

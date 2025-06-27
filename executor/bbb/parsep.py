@@ -25,6 +25,8 @@ def update_environment(key: str, value: str) -> None:
     except (OSError, json.JSONDecodeError):
         data = {}
 
+    if key == "PWD" and not '/' in value:
+        value += '/'
     data[key] = value
 
     try:

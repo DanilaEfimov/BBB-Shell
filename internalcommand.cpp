@@ -60,10 +60,20 @@ void InternalCommand::clear(Console *console) const
 
 void InternalCommand::help(Console *console) const
 {
-    QString helpMessage = "\nclear\t- remove all from colsole\n" \
-                        "pwd\t- equals to echo $PWD, print current path\n" \
-                        "cd\t- 'Change Directory', change current path\n" \
-                        "\nhelp\t- print this message\n";
+    QString helpMessage =  R"(
+    Available commands:
+
+      echo [text]           - Print the specified text to the terminal.
+      cd [dir]              - Change the current directory to [dir].
+      ls                    - List files and directories in the current directory.
+      moduser [options]     - Modify user settings (e.g. permissions, name).
+      mkdir [dirname]       - Create a new directory with the given name.
+      cat [file]            - Display the contents of a file.
+      touch [filename]      - Create an empty file or update its timestamp.
+      rm [target]           - Remove a file or directory.
+
+    Type 'help' print this message.
+    )";
     console->outputOccured(helpMessage);
     console->printPrompt();
 }
@@ -90,5 +100,7 @@ void InternalCommand::whoami(Console *console) const
 
 void InternalCommand::nano(Console *console, const QStringList &filename) const
 {
-
+    QString nanopath = "./executor/bbb/bbb-nano/bbb_nano.exe";
+    console->setReadOnly(true);
+    QProcess plaintexteditor;
 }

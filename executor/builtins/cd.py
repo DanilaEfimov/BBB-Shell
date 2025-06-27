@@ -35,6 +35,14 @@ def is_target_visible(pwd: str, target: str) -> bool:
 
     return os.path.exists(abs_path) and os.path.isdir(abs_path)
 
+def has_illegal_dots_component(path: str) -> bool:
+    parts = pathlib.Path(path).parts
+    for part in parts:
+        founded = '...' in part
+        if founded:
+            return True
+    return False
+
 def call(args: list[str]) -> str:
     pwd = get_Pwd()
     directories = get_directories_from_path(pwd)
@@ -58,8 +66,12 @@ def call(args: list[str]) -> str:
     elif target == PATH_PATTERNS["rand"]:
         pwd = get_random_path(pwd)
     else:
-        # Get the absolute path relative to pwd
         abs_target = target if os.path.isabs(target) else os.path.normpath(os.path.join(pwd, target))
+
+        if has_illegal_dots_component(abs_target):
+            sys.stderr.write(
+                f"cd: no such directory: '{target}' (paths with '...' or more dots are not allowed unless they exist)\n")
+            return pwd
 
         if os.path.exists(abs_target) and os.path.isdir(abs_target):
             pwd = abs_target.replace('\\', '/')
