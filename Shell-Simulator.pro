@@ -42,4 +42,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     rsc.qrc
 
+RC_FILE = icon.rc
+
 DESTDIR += $$PWD

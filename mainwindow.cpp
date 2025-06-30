@@ -69,6 +69,5 @@ void MainWindow::handleError(const QString &message)
 
 void MainWindow::terminate()
 {
-    qDebug() << "exiting...";
     this->close();
 }

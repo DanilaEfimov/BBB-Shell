@@ -30,7 +30,7 @@ private:
     void pwd(Console* console) const;
     void exit(Console* console) const;
     void whoami(Console* console) const;
-    void nano(Console* console, const QStringList& filename) const;
+    void nano(Console* console, const QStringList& command) const;
 };
 
 #endif // INTERNALCOMMAND_H

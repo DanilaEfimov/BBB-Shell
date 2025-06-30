@@ -1,8 +1,5 @@
-*.user
-*.idea
-/__pycache__
+/platforms
 /build
-/platforms # Here located Qt plugins
 
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------

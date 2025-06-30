@@ -61,18 +61,23 @@ void InternalCommand::clear(Console *console) const
 void InternalCommand::help(Console *console) const
 {
     QString helpMessage =  R"(
-    Available commands:
+        Available commands:
 
-      echo [text]           - Print the specified text to the terminal.
-      cd [dir]              - Change the current directory to [dir].
-      ls                    - List files and directories in the current directory.
-      moduser [options]     - Modify user settings (e.g. permissions, name).
-      mkdir [dirname]       - Create a new directory with the given name.
-      cat [file]            - Display the contents of a file.
-      touch [filename]      - Create an empty file or update its timestamp.
-      rm [target]           - Remove a file or directory.
+          echo [text]           - Print the specified text to the terminal.
+          cd [dir]              - Change the current directory to [dir].
+          ls                    - List files and directories in the current directory.
+          moduser [options]     - Modify user settings (e.g. permissions, name).
+          mkdir [dirname]       - Create a new directory with the given name.
+          cat [file]            - Display the contents of a file.
+          touch [filename]      - Create an empty file or update its timestamp.
+          rm [target]           - Remove a file or directory.
+          whoami                - Show the current user name.
+          pwd                   - Print the current working directory.
+          nano [abs_path]       - Launch the graphical bbb-nano editor (requires absolute path).
+          clear                 - Clear the console screen.
+          exit                  - Close the shell.
 
-    Type 'help' print this message.
+        Type 'help' to print this message.
     )";
     console->outputOccured(helpMessage);
     console->printPrompt();
@@ -98,9 +103,25 @@ void InternalCommand::whoami(Console *console) const
     console->printPrompt();
 }
 
-void InternalCommand::nano(Console *console, const QStringList &filename) const
+void InternalCommand::nano(Console *console, const QStringList &command) const
 {
+    if(command.size() == 0){
+        return;
+    }
+
     QString nanopath = "./executor/bbb/bbb-nano/bbb_nano.exe";
     console->setReadOnly(true);
-    QProcess plaintexteditor;
+
+    QProcess *plaintexteditor = new QProcess(console);
+
+    connect(plaintexteditor, &QProcess::finished, console, [console, plaintexteditor]() {
+        console->setReadOnly(false);
+        plaintexteditor->deleteLater();
+        console->printPrompt();
+    });
+
+    QStringList joined = command;
+    joined.pop_front();
+
+    plaintexteditor->start(nanopath, QStringList(joined.join(' ')));
 }

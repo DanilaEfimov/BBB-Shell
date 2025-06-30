@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>nano.qss</file>
         <file>bbb.ico</file>
+        <file>nanoDark.qss</file>
+        <file>nanoLight.qss</file>
     </qresource>
 </RCC>
